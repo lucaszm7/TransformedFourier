@@ -1,32 +1,17 @@
-[data, N] = audioread('StarWars60.wav');
+[data, freq] = audioread('StarWars60.wav');
 
 data = [];
-sample_data = 0:1:30;
+sample_data = 0:0.1:60;
 for i = 1 : length(sample_data)
   data(i) = 0.8^sample_data(i)
 endfor
 
-N = length(sample_data);
-T = 1 / N;
-
-figure;
+figure();
 plot(sample_data, data);
+title('Dominio do Tempo');
+xlabel('Tempo (s)');
+ylabel('Amplitude');
 
-octave_fft = fft(data);
+dtft(data, 30);
 
-figure;
-plot(abs(octave_fft));
-
-sample_dtft = -100:0.1:100
-dtft = [];
-
-for w = 1 : length(sample_dtft);
-  dtft(w) = 0;
-  for n=1 : length(data)
-    dtft(w) += data(n) * exp(-j*sample_dtft(w)*n);
-  endfor
-endfor
-
-figure;
-plot(sample_dtft, abs(dtft));
 
