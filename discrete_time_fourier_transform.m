@@ -1,16 +1,18 @@
 [data, N] = audioread('StarWars60.wav');
 
-#sample_data = 0:0.1:30;
-#for i = 1 : length(sample_data)
-#  data(i) = 0.8^sample_data(i)
-#endfor
-#N = 300;
-#T = 1 / N;
+data = [];
+sample_data = 0:1:30;
+for i = 1 : length(sample_data)
+  data(i) = 0.8^sample_data(i)
+endfor
+
+N = length(sample_data);
+T = 1 / N;
 
 figure;
 plot(sample_data, data);
 
-octave_fft = fft(data, 1 / T);
+octave_fft = fft(data);
 
 figure;
 plot(abs(octave_fft));
