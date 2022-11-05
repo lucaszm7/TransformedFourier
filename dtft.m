@@ -1,30 +1,40 @@
 function [data_dtft, freq_dtft] = dtft (data, freq_data)
 
   n_amostras = length(data);
-  aux = 0 : n_amostras-1;
-  segundos = n_amostras / freq_data;
-  freq_dtft = aux / segundos;
+
+  # ----------------------------------------------
 
   data_dtft = fftshift(fft(data));
+  x_DTFT = linspace(-pi, pi, n_amostras);
 
   figure();
-  plot(freq_dtft, abs(data_dtft));
-  title('FFTN - Dominio das Frequencias');
+  plot(x_DTFT, abs(data_dtft));
+  title('Octave - FFTN - Dominio das Frequencias');
   xlabel('Frequencia (rad/s)');
   ylabel('Magnitude');
-  
-  for w = 1 : n_amostras
+
+  # ----------------------------------------------
+
+  x_DTFT = linspace(-pi, pi, 100);
+  sample_DTFT = length(x_DTFT);
+  data_dtft = [];
+
+  for w = 1 : sample_DTFT
     data_dtft(w) = 0;
     for n = 1 : n_amostras
-      data_dtft(w) += data(n) * exp(-j*(w-(n_amostras/2)-1)*(pi/(n_amostras))*(n-1));
+      #                                |      maxW |   2 * pi
+      #                           -j * | wk - ---- | * ------ * n
+      #                                |       2   |    maxW
+      #                         e^
+      data_dtft(w) += data(n) * exp(-j*(w-(sample_DTFT/2)-1)*((2*pi)/sample_DTFT)*(n-1));
     endfor
   endfor
 
-  length(data)
-  
+  length(data_dtft)
+
   figure();
-  plot(freq_dtft, abs(data_dtft));
-  title('DTFT - Dominio das Frequencias');
+  plot(x_DTFT, abs(data_dtft));
+  title('Minha - DTFT - Dominio das Frequencias');
   xlabel('Frequencia (rad/s)');
   ylabel('Magnitude');
 
